@@ -1,23 +1,48 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react'
+import { View } from 'react-native'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import { TabNavigator } from 'react-navigation'
 
-export default class App extends React.Component {
-  render() {
+import reducer from './reducers'
+import { accent, primary } from './utils/colors'
+import CustomStatusBar from './components/CustomStatusBar'
+import ListDecks from './components/ListDecks'
+import NewDeck from './components/NewDeck'
+
+const Tabs = TabNavigator({
+  ListDecks: {
+    screen: ListDecks,
+    navigationOptions: {
+      tabBarLabel: 'Decks'
+    }
+  },
+  NewDeck: {
+    screen: NewDeck,
+    navigationOptions: {
+      tabBarLabel: 'New Deck'
+    }
+  }
+}, {
+  tabBarOptions: {
+    style: {
+      backgroundColor: primary
+    },
+    indicatorStyle: {
+      backgroundColor: accent
+    }
+  }
+})
+
+export default class App extends Component {
+  render () {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
+      <Provider store={createStore(reducer)}>
+        <View style={{flex: 1}}>
+          <CustomStatusBar backgroundColor={primary} />
+          <Tabs />
+        </View>
+      </Provider>
+    )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
