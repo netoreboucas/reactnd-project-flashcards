@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 
@@ -54,10 +55,15 @@ const MainNavigator = StackNavigator({
   }
 })
 
+const store = createStore(
+  reducer,
+  applyMiddleware(thunk)
+)
+
 export default class App extends Component {
   render () {
     return (
-      <Provider store={createStore(reducer)}>
+      <Provider store={store}>
         <View style={{flex: 1}}>
           <CustomStatusBar backgroundColor={primary} />
           <MainNavigator />

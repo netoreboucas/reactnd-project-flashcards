@@ -13,9 +13,11 @@ class NewDeck extends Component {
   onPress = () => {
     const { title } = this.state
     this.props.addDeck(this.state.title)
-    this.setState({title: ''})
-    this.props.navigation.navigate('ListDecks')
-    this.props.navigation.navigate('Deck', { deckId: title })
+      .then(() => {
+        this.setState({title: ''})
+        this.props.navigation.navigate('ListDecks')
+        this.props.navigation.navigate('Deck', { deckId: title })
+      })
   }
 
   render () {

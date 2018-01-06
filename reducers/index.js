@@ -3,7 +3,9 @@ import { GET_DECKS, ADD_DECK } from '../actions'
 function decks (state = {}, action) {
   switch (action.type) {
     case GET_DECKS:
-      return state
+      return {
+        ...action.decks
+      }
 
     case ADD_DECK:
       return {
