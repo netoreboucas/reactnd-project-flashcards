@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { View } from 'react-native'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import { TabNavigator } from 'react-navigation'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 
 import reducer from './reducers'
-import { accent, primary } from './utils/colors'
+import { accent, primary, white } from './utils/colors'
 import CustomStatusBar from './components/CustomStatusBar'
 import ListDecks from './components/ListDecks'
 import NewDeck from './components/NewDeck'
+import Deck from './components/Deck'
 
 const Tabs = TabNavigator({
   ListDecks: {
@@ -24,12 +25,31 @@ const Tabs = TabNavigator({
     }
   }
 }, {
+  navigationOptions: {
+    header: null
+  },
   tabBarOptions: {
     style: {
+      height: 56,
       backgroundColor: primary
     },
     indicatorStyle: {
       backgroundColor: accent
+    }
+  }
+})
+
+const MainNavigator = StackNavigator({
+  Home: {
+    screen: Tabs
+  },
+  Deck: {
+    screen: Deck,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: primary
+      }
     }
   }
 })
@@ -40,7 +60,7 @@ export default class App extends Component {
       <Provider store={createStore(reducer)}>
         <View style={{flex: 1}}>
           <CustomStatusBar backgroundColor={primary} />
-          <Tabs />
+          <MainNavigator />
         </View>
       </Provider>
     )

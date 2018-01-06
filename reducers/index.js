@@ -1,11 +1,17 @@
-import { TEST } from '../actions'
+import { GET_DECKS, ADD_DECK } from '../actions'
 
-function entries (state = {}, action) {
+function decks (state = {}, action) {
   switch (action.type) {
-    case TEST:
+    case GET_DECKS:
+      return state
+
+    case ADD_DECK:
       return {
         ...state,
-        ...action.test
+        [action.title]: {
+          title: action.title,
+          questions: []
+        }
       }
 
     default:
@@ -13,4 +19,4 @@ function entries (state = {}, action) {
   }
 }
 
-export default entries
+export default decks
