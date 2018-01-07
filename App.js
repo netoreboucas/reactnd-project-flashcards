@@ -11,6 +11,7 @@ import CustomStatusBar from './components/CustomStatusBar'
 import ListDecks from './components/ListDecks'
 import NewDeck from './components/NewDeck'
 import Deck from './components/Deck'
+import AddCard from './components/AddCard'
 
 const Tabs = TabNavigator({
   ListDecks: {
@@ -46,6 +47,15 @@ const MainNavigator = StackNavigator({
   },
   Deck: {
     screen: Deck,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: primary
+      }
+    }
+  },
+  AddCard: {
+    screen: AddCard,
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {

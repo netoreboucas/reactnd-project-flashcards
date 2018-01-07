@@ -22,12 +22,25 @@ export function addDeck (title) {
   }))
 }
 
-export function removeDeck (key) {
+export function removeDeck (title) {
   return AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY)
     .then((result) => {
       const data = JSON.parse(result)
-      data[key] = undefined
-      delete data[key]
+      data[title] = undefined
+      delete data[title]
       AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(data))
+    })
+}
+
+export function addCard (title, card) {
+  return AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY)
+    .then((result) => {
+      const decks = JSON.parse(result)
+      return AsyncStorage.mergeItem(FLASHCARDS_STORAGE_KEY, JSON.stringify({
+        [title]: {
+          title,
+          questions: [...decks[title].questions, card]
+        }
+      }))
     })
 }

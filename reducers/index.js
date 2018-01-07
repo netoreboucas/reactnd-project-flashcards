@@ -1,4 +1,4 @@
-import { GET_DECKS, ADD_DECK } from '../actions'
+import { GET_DECKS, ADD_DECK, REMOVE_DECK, ADD_CARD } from '../actions'
 
 function decks (state = {}, action) {
   switch (action.type) {
@@ -13,6 +13,26 @@ function decks (state = {}, action) {
         [action.title]: {
           title: action.title,
           questions: []
+        }
+      }
+
+    case REMOVE_DECK:
+      const data = {
+        ...state
+      }
+      data[action.title] = undefined
+      delete data[action.title]
+      return data
+
+    case ADD_CARD:
+      return {
+        ...state,
+        [action.title]: {
+          ...state[action.title],
+          questions: [
+            ...state[action.title].questions,
+            action.card
+          ]
         }
       }
 

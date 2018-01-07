@@ -4,13 +4,14 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { addDeck } from '../actions'
+import { primaryText, white } from '../utils/colors'
 
 class NewDeck extends Component {
   state = {
     title: ''
   }
 
-  onPress = () => {
+  onSubmitPress = () => {
     const { title } = this.state
     this.props.addDeck(this.state.title)
       .then(() => {
@@ -23,10 +24,10 @@ class NewDeck extends Component {
   render () {
     return (
       <View style={styles.container}>
-        <Text>What is the title of your new deck?</Text>
-        <TextInput value={this.state.title} onChangeText={(title) => this.setState({title})} />
-        <TouchableOpacity onPress={this.onPress}>
-          <Text>Save</Text>
+        <Text style={styles.label}>What is the title of your new deck?</Text>
+        <TextInput style={styles.input} value={this.state.title} placeholder="Deck Title" onChangeText={(title) => this.setState({title})} />
+        <TouchableOpacity style={styles.button} onPress={this.onSubmitPress}>
+          <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
     )
@@ -35,7 +36,37 @@ class NewDeck extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    alignItems: 'center'
+  },
+  label: {
+    textAlign: 'center',
+    color: primaryText,
+    fontSize: 45,
+    padding: 20
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: primaryText,
+    borderRadius: 5,
+    padding: 5,
+    marginLeft: 20,
+    marginRight: 20,
+    alignSelf: 'stretch'
+  },
+  button: {
+    borderWidth: 1,
+    borderColor: primaryText,
+    borderRadius: 5,
+    backgroundColor: primaryText,
+    alignItems: 'center',
+    padding: 10,
+    marginTop: 20,
+    width: 100
+  },
+  buttonText: {
+    color: white,
+    textAlign: 'center'
   }
 })
 
