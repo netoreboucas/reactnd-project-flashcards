@@ -1,3 +1,5 @@
+/* global alert */
+
 import React, { Component } from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { connect } from 'react-redux'
@@ -17,7 +19,20 @@ class AddCard extends Component {
   }
 
   onSubmitPress = () => {
-    const { question, answer } = this.state
+    let { question, answer } = this.state
+    question = question.trim()
+    answer = answer.trim()
+
+    if (question === '') {
+      alert('Question is mandatory')
+      return
+    }
+
+    if (answer === '') {
+      alert('Answer is mandatory')
+      return
+    }
+
     this.props.addCard(this.props.deck.title, { question, answer })
       .then(() => {
         this.props.navigation.goBack(null)

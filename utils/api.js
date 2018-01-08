@@ -13,6 +13,17 @@ export function getDecks () {
     })
 }
 
+export function getDeck (title) {
+  return AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY)
+    .then((result) => {
+      if (result === null) {
+        return undefined
+      }
+
+      return JSON.parse(result)[title]
+    })
+}
+
 export function addDeck (title) {
   return AsyncStorage.mergeItem(FLASHCARDS_STORAGE_KEY, JSON.stringify({
     [title]: {

@@ -1,3 +1,5 @@
+/* global alert */
+
 import React, { Component } from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { connect } from 'react-redux'
@@ -5,6 +7,7 @@ import PropTypes from 'prop-types'
 
 import { addDeck } from '../actions'
 import { primaryText, white } from '../utils/colors'
+import * as API from '../utils/api'
 
 class NewDeck extends Component {
   state = {
@@ -12,13 +15,27 @@ class NewDeck extends Component {
   }
 
   onSubmitPress = () => {
-    const { title } = this.state
-    this.props.addDeck(this.state.title)
-      .then(() => {
-        this.setState({title: ''})
-        this.props.navigation.navigate('ListDecks')
-        this.props.navigation.navigate('Deck', { deckId: title })
-      })
+    let { title } = this.state
+    title = title.trim()
+
+    if (title === '') {
+      alert('Deck title is mandatory')
+      return
+    }
+
+    API.getDeck(title).then((deck) => {
+      if (deck !== undefined) {
+        alert('Already exists one deck with this title')
+        return
+      }
+
+      this.props.addDeck(title)
+        .then(() => {
+          this.setState({title: ''})
+          this.props.navigation.navigate('ListDecks')
+          this.props.navigation.navigate('Deck', { deckId: title })
+        })
+    })
   }
 
   render () {
