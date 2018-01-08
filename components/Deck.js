@@ -15,13 +15,17 @@ class Deck extends Component {
     this.props.navigation.navigate('AddCard', { deckId: this.props.deck.title })
   }
 
+  onStartPress = () => {
+    this.props.navigation.navigate('Quiz', { deckId: this.props.deck.title })
+  }
+
   onRemovePress = () => {
     const { deck } = this.props
     const { title } = deck
 
     Alert.alert(
-      'Remove',
-      `Are you sure that you want remove the deck ${title}?`,
+      'Remove deck',
+      `Are you sure that you want remove the deck "${title}"?`,
       [
         {text: 'Cancel', style: 'cancel'},
         {
@@ -29,7 +33,7 @@ class Deck extends Component {
           onPress: () => {
             this.props.removeDeck(title)
               .then(() => {
-                this.props.navigation.goBack()
+                this.props.navigation.goBack(null)
               })
           }
         }
@@ -52,14 +56,21 @@ class Deck extends Component {
           <Text style={styles.numberOfCards}>{deck.questions.length} cards</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.addButton} onPress={this.onAddPress}>
-            <Text style={styles.addButtonText}>Add Card</Text>
+          <TouchableOpacity
+            style={[styles.button, { borderColor: primaryText }]}
+            onPress={this.onAddPress}
+          >
+            <Text style={[styles.buttonText, { color: primaryText }]}>Add Card</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.startButton} onPress={this.onStartPress}>
-            <Text style={styles.startButtonText}>Start Quiz</Text>
+          <TouchableOpacity
+            disabled={deck.questions.length === 0}
+            style={[styles.button, { backgroundColor: primaryText }, deck.questions.length === 0 ? styles.disabled : null]}
+            onPress={this.onStartPress}
+          >
+            <Text style={[styles.buttonText, { color: white }]}>Start Quiz</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.removeButton} onPress={this.onRemovePress}>
-            <Text style={styles.removeButtonText}>Remove</Text>
+          <TouchableOpacity onPress={this.onRemovePress}>
+            <Text style={styles.link}>Remove deck</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -78,8 +89,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   buttonContainer: {
-    paddingTop: 50,
-    paddingBottom: 50
+    paddingTop: 30,
+    paddingBottom: 10
   },
   title: {
     textAlign: 'center',
@@ -91,40 +102,25 @@ const styles = StyleSheet.create({
     color: secondaryText,
     fontSize: 20
   },
-  addButton: {
+  button: {
     borderWidth: 1,
-    borderColor: primaryText,
     borderRadius: 5,
+    borderColor: primaryText,
     alignItems: 'center',
     padding: 15,
     marginTop: 20,
     width: 200
   },
-  addButtonText: {
-    color: primaryText,
+  buttonText: {
     textAlign: 'center'
   },
-  startButton: {
-    borderWidth: 1,
-    borderColor: primaryText,
-    borderRadius: 5,
-    backgroundColor: primaryText,
-    alignItems: 'center',
-    padding: 15,
-    marginTop: 20,
-    width: 200
-  },
-  startButtonText: {
-    color: white,
-    textAlign: 'center'
-  },
-  removeButton: {
-    alignItems: 'center',
-    marginTop: 20
-  },
-  removeButtonText: {
+  link: {
+    padding: 20,
     color: accent,
     textAlign: 'center'
+  },
+  disabled: {
+    backgroundColor: secondaryText
   }
 })
 

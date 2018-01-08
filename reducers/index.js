@@ -1,4 +1,4 @@
-import { GET_DECKS, ADD_DECK, REMOVE_DECK, ADD_CARD } from '../actions'
+import { GET_DECKS, ADD_DECK, REMOVE_DECK, ADD_CARD, REMOVE_CARD } from '../actions'
 
 function decks (state = {}, action) {
   switch (action.type) {
@@ -33,6 +33,17 @@ function decks (state = {}, action) {
             ...state[action.title].questions,
             action.card
           ]
+        }
+      }
+
+    case REMOVE_CARD:
+      return {
+        ...state,
+        [action.title]: {
+          ...state[action.title],
+          questions: state[action.title].questions.filter((card) => {
+            return card.question !== action.card.question || card.answer !== action.card.answer
+          })
         }
       }
 

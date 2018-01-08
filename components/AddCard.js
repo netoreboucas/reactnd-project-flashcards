@@ -20,7 +20,7 @@ class AddCard extends Component {
     const { question, answer } = this.state
     this.props.addCard(this.props.deck.title, { question, answer })
       .then(() => {
-        this.setState({question: '', answer: ''})
+        this.props.navigation.goBack(null)
       })
   }
 
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
 
 AddCard.propTypes = {
   deck: PropTypes.object,
+  navigation: PropTypes.object,
   addCard: PropTypes.func
 }
 

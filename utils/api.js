@@ -44,3 +44,19 @@ export function addCard (title, card) {
       }))
     })
 }
+
+export function removeCard (title, card) {
+  return AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY)
+    .then((result) => {
+      const data = JSON.parse(result)
+      AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify({
+        ...data,
+        [title]: {
+          ...data[title],
+          questions: data[title].questions.filter((c) => {
+            return c.question !== card.question || c.answer !== card.answer
+          })
+        }
+      }))
+    })
+}
