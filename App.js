@@ -7,6 +7,7 @@ import { TabNavigator, StackNavigator } from 'react-navigation'
 
 import reducer from './reducers'
 import { accent, primary, white } from './utils/colors'
+import { setLocalNotification } from './utils/helpers'
 import CustomStatusBar from './components/CustomStatusBar'
 import ListDecks from './components/ListDecks'
 import NewDeck from './components/NewDeck'
@@ -81,6 +82,10 @@ const store = createStore(
 )
 
 export default class App extends Component {
+  componentDidMount () {
+    setLocalNotification()
+  }
+
   render () {
     return (
       <Provider store={store}>

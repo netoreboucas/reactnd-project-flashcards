@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import { removeCard } from '../actions'
 import { accent, primaryText, secondaryText, white, green, red } from '../utils/colors'
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
 
 class Quiz extends Component {
   state = {
@@ -15,6 +16,11 @@ class Quiz extends Component {
 
   static navigationOptions = ({ navigation }) => {
     return { title: 'Quiz' }
+  }
+
+  componentDidMount () {
+    clearLocalNotification()
+      .then(setLocalNotification)
   }
 
   componentWillReceiveProps (nextProps) {
