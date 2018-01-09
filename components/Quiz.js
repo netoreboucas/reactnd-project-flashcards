@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import { removeCard } from '../actions'
 import { accent, primaryText, secondaryText, white, green, red } from '../utils/colors'
-import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
+import FinishQuiz from './FinishQuiz'
 
 class Quiz extends Component {
   state = {
@@ -16,11 +16,6 @@ class Quiz extends Component {
 
   static navigationOptions = ({ navigation }) => {
     return { title: 'Quiz' }
-  }
-
-  componentDidMount () {
-    clearLocalNotification()
-      .then(setLocalNotification)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -71,25 +66,11 @@ class Quiz extends Component {
 
     if (questionIndex === deck.questions.length) { // Finish Quiz
       return (
-        <View style={styles.container}>
-          <View style={styles.questionContainer}>
-            <Text style={styles.label}>
-              You got {correctCount} question{correctCount > 1 ? 's' : ''} out of a total of {deck.questions.length} question{deck.questions.length > 1 ? 's' : ''}!
-            </Text>
-          </View>
-
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={[styles.button, { borderColor: primaryText }]} onPress={this.restart}>
-              <Text style={[styles.buttonText, { color: primaryText }]}>Restart Quiz</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, { backgroundColor: primaryText }]} onPress={() => {
-              this.props.navigation.goBack(null)
-              this.props.navigation.goBack(null)
-            }}>
-              <Text style={[styles.buttonText, { color: white }]}>Back to Deck</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <FinishQuiz
+          correctCount={correctCount}
+          totalCount={deck.questions.length}
+          restart={this.restart}
+          back={() => this.props.navigation.goBack(null)} />
       )
     }
 
